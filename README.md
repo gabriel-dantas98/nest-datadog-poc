@@ -15,7 +15,7 @@ A simple NestJS API with 2 endpoints, configured with Docker, NVM support and Da
 
 ## Datadog Configuration
 
-This application uses Datadog APM for monitoring and tracing. The `dd-trace` library sends data directly to Datadog without requiring a local Agent.
+This application uses Datadog APM for monitoring and tracing. The `dd-trace` library sends data directly to Datadog without requiring a local Agent (agentless mode).
 
 ### Environment Variables
 
@@ -30,6 +30,8 @@ DD_VERSION=1.0.0
 DD_TRACE_AGENT_URL=https://trace.agent.us5.datadoghq.com
 DD_LOGS_INJECTION=true
 ```
+
+**Important:** The `DD_TRACE_AGENT_URL` variable is required for agentless mode. When set, the tracer will send traces directly to Datadog instead of trying to connect to a local agent at `127.0.0.1:8126`. This prevents `ECONNREFUSED` errors in PaaS/serverless environments.
 
 See `env.example` for a complete list of environment variables.
 
