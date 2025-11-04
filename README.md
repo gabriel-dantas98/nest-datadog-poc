@@ -128,3 +128,57 @@ npm install
 - ✅ **Runtime Metrics**: CPU, memory, and garbage collection metrics
 - ✅ **Profiling**: Continuous profiling for performance optimization
 - ✅ **Log Injection**: Correlate logs with traces using trace IDs
+
+## Viewing Datadog Events and Traces
+
+### Using Native Datadog Debug Logging
+
+O Datadog fornece logging nativo através da variável de ambiente `DD_TRACE_DEBUG`. Quando habilitado, o `dd-trace` loga automaticamente todos os eventos, spans e traces no console.
+
+**Para habilitar o debug logging:**
+
+```bash
+export DD_TRACE_DEBUG=true
+npm run start:dev
+```
+
+Ou no Docker:
+
+```bash
+docker run -p 3000:3000 \
+  -e DD_TRACE_DEBUG=true \
+  -e DD_API_KEY=your_api_key \
+  -e DD_SITE=us5.datadoghq.com \
+  nest-datadog-poc
+```
+
+Com `DD_TRACE_DEBUG=true`, você verá no console:
+- Criação de spans HTTP
+- Finalização de spans
+- Envio de traces para o Datadog
+- Erros e avisos do tracer
+- Informações de sampling e rate limiting
+
+**Exemplo de output:**
+
+```
+[DD-TRACE DEBUG] Starting span http.request
+[DD-TRACE DEBUG] Finishing span http.request (duration: 45ms)
+[DD-TRACE DEBUG] Sending trace to agent
+```
+
+### Viewing Traces in Datadog Dashboard
+
+Após enviar traces, visualize-os no dashboard do Datadog:
+
+1. Acesse **APM > Services** no Datadog
+2. Selecione o serviço `nest-datadog-poc`
+3. Veja traces detalhados, spans, métricas e performance
+
+### Additional Debug Options
+
+Você também pode usar outras variáveis de ambiente nativas do Datadog:
+
+- `DD_TRACE_SAMPLE_RATE` - Taxa de sampling (0.0 a 1.0)
+- `DD_TRACE_STARTUP_LOGS` - Logs de inicialização (já habilitado por padrão)
+- `DD_TRACE_AGENT_URL` - URL customizada do agent
