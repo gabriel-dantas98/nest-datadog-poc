@@ -2,9 +2,6 @@
 // DD_TRACE_DEBUG=true enables native debug logging from dd-trace
 import tracer from 'dd-trace';
 
-// Use agentless mode if DD_TRACE_AGENT_URL is set, otherwise use local agent
-const agentUrl = process.env.DD_TRACE_AGENT_URL;
-
 tracer.init({
   logInjection: true,
   runtimeMetrics: true,
@@ -15,9 +12,6 @@ tracer.init({
   version: process.env.DD_VERSION || '1.0.0',
   // Native debug logging - controlled by DD_TRACE_DEBUG env var
   logLevel: process.env.DD_TRACE_DEBUG === 'true' ? 'debug' : 'error',
-  // Configure URL for agentless mode (sends directly to Datadog)
-  // If not set, defaults to local agent at 127.0.0.1:8126
-  ...(agentUrl && { url: agentUrl }),
 });
 
 import { NestFactory } from '@nestjs/core';
